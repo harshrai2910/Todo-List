@@ -1,0 +1,159 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.input {
+  padding: 8px 8px;
+  width: 80%;
+  font-size: 14px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgba(128, 128, 128, 0.45);
+  color: white;
+}
+.input:focus {
+  outline: none;
+}
+
+#addbtn,
+.delbtn {
+  padding: 8px 10px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.delbtn {
+  background-color: rgba(255, 0, 0, 0.694);
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+  transition: all 0.5s ease;
+}
+.delbtn:hover {
+  background-color: rgba(255, 0, 0, 0.8);
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4);
+}
+.delbtn:active {
+  background-color: rgba(255, 0, 0, 0.9);
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(255, 0, 0, 0.7);
+}
+#addbtn {
+  background-color: blueviolet;
+  box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+  transition: all 0.5s ease;
+}
+
+#addbtn:hover {
+  background-color: #8a2be2;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
+}
+
+#addbtn:active {
+  background-color: #7b1fa2;
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(138, 43, 226, 0.6);
+}
+body {
+  background-color: black;
+}
+.box {
+  border: none;
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 30vw;
+  font-family: "Poppins", monospace;
+  background-color: rgba(0, 0, 0, 0.874);
+  color: white;
+  border-radius: 10px;
+  position: relative;
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.box::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  width: 100%;
+  background: conic-gradient(from var(--angle), blue, red, orange, blue);
+  z-index: -1;
+  border-radius: 10px;
+  animation: animate 2s linear infinite;
+  filter: blur(1rem);
+}
+
+@keyframes animate {
+  0% {
+    --angle: 0deg;
+  }
+  100% {
+    --angle: 360deg;
+  }
+}
+
+.dataList,
+ul,
+.add {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dataList {
+  border: 1px solid black;
+  width: 100%;
+  padding: 5px 5px;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: rgba(128, 128, 128, 0.45);
+}
+.para {
+  color: white;
+  font-size: 15px;
+  text-align: center;
+}
+.list-container,
+.add {
+  width: 100%;
+}
+ul {
+  flex-direction: column;
+}
+input[type="checkbox"] {
+  height: 15px;
+  width: 15px;
+  accent-color: black;
+}
+.headPara {
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .box {
+    width: 70vw;
+  }
+  .para {
+    font-size: 13px;
+  }
+  .input {
+    width: 75%;
+  }
+}
