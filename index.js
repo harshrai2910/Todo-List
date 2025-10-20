@@ -2,22 +2,32 @@ let input = document.querySelector("#input-value");
 let addBtn = document.querySelector("#addbtn");
 let list = document.querySelector(".list");
 
-function render() {
-  if (input.value === "") {
-    return;
-  } else {
+let todos = JSON.parse(localStorage.getItem("todos")) || [];
+
+function saveTodo() {
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+function renderList() {
+  list.innerHTML = "";
+  todos.forEach((todo, index) => {
     let li = document.createElement("li");
     li.classList.add("dataList");
+
     let check = document.createElement("input");
     check.type = "checkbox";
+    check.checked = todo.done;
     li.appendChild(check);
 
     let p = document.createElement("p");
     p.classList.add("para");
-    p.innerHTML = input.value;
+    p.innerHTML = todo.text;
     let text = p.innerHTML.split(" ");
     if (text.length > 4) {
       p.innerHTML = text.slice(0, 4).join(" ") + "...";
+    }
+    if (todo.done) {
+      p.style.textDecoration = "line-through";
     }
     li.appendChild(p);
 
@@ -26,36 +36,50 @@ function render() {
     delbtn.innerHTML = "Delete";
     li.appendChild(delbtn);
 
-    list.append(li);
-    input.value = "";
-
     check.addEventListener("change", () => {
-      if (check.checked) {
-        p.style.textDecoration = "line-through";
-      } else {
-        p.style.textDecoration = "none";
-      }
+      todos[index].done = check.checked;
+      saveTodo();
+      check.checked
+        ? (p.style.textDecoration = "line-through")
+        : (p.style.textDecoration = "none");
     });
 
     p.addEventListener("dblclick", () => {
-      let newP = prompt(`Edit : ${p.innerHTML}`);
-      if (newP.trim() != "" && newP != null) {
-        p.innerHTML = newP;
+      let newP = prompt(`Edit : ${todo.text}`);
+      if (newP !== null) {
+        let trimmed = newP.trim();
+        if (trimmed !== "") {
+          todos[index].text = trimmed;
+          saveTodo();
+          renderList();
+        } else {
+          alert("Empty text not allowed");
+        }
       }
     });
 
-    delbtn.addEventListener("click", (e) => {
-      let listRemove = e.target.closest("li");
-      listRemove.remove();
+    delbtn.addEventListener("click", () => {
+      todos.splice(index, 1);
+      saveTodo();
+      renderList();
     });
-  }
+
+    list.append(li);
+  });
 }
 
-addBtn.addEventListener("click", () => {
-  render();
-});
+function addTodo() {
+  let val = input.value.trim();
+  if (!val) return;
+  todos.push({ text: val, done: false });
+  saveTodo();
+  renderList();
+  input.value = "";
+}
+
+addBtn.addEventListener("click", addTodo);
 input.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    render();
-  }
+  if (e.key === "Enter") addTodo();
 });
+
+renderList();
